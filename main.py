@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pywhatkit
 import time
-import random
+import secrets
 
 
 def GET_TIME():
@@ -60,11 +60,11 @@ class LinkedInBot:
         input_email = driver.find_element(By.ID, self.LOGIN_ID[0])
         input_email.clear()
         input_email.send_keys(email)
-        time.sleep(random.randint(5, 10))  # Mimics Human responses
+        time.sleep(secrets.SystemRandom().randint(5, 10))  # Mimics Human responses
         # Get the bot to find the "password" box where it will enter the password
         input_password = driver.find_element(By.ID, self.LOGIN_ID[1])
         input_password.send_keys(password + Keys.ENTER)
-        time.sleep(random.randint(5, 10))
+        time.sleep(secrets.SystemRandom().randint(5, 10))
 
     def get_search(self):
         driver = self.driver
@@ -74,7 +74,7 @@ class LinkedInBot:
         input_search = driver.find_element(By.CLASS_NAME, "search-global-typeahead__input")
         if self.SEARCH_KEYS["University"] is not None and self.SEARCH_KEYS["Degree"] is not None:
             input_search.send_keys(f"{self.SEARCH_KEYS['University']} {self.SEARCH_KEYS['Degree']}" + Keys.ENTER)
-            time.sleep(random.randint(5, 10))
+            time.sleep(secrets.SystemRandom().randint(5, 10))
         WebDriverWait(driver, 5).until(
             EC.presence_of_element_located((By.PARTIAL_LINK_TEXT, "See all people results"))
         )
@@ -82,7 +82,7 @@ class LinkedInBot:
         # bot to click on it
         foo = driver.find_element(By.PARTIAL_LINK_TEXT, "See all people results")
         foo.click()
-        time.sleep(random.randint(5, 10))
+        time.sleep(secrets.SystemRandom().randint(5, 10))
 
     def retrieve_links(self):
         driver = self.driver
@@ -107,10 +107,10 @@ class LinkedInBot:
         for link in links:
             try:
                 driver.get(link)
-                time.sleep(random.randint(5, 10))
+                time.sleep(secrets.SystemRandom().randint(5, 10))
             except Exception as e:
                 print(f'Error processing {link}: {e}')
-        time.sleep(random.randint(2, 5))
+        time.sleep(secrets.SystemRandom().randint(2, 5))
 
     def next_page(self):
         next_page_num = self.page_number + 1
@@ -121,13 +121,13 @@ class LinkedInBot:
                 EC.presence_of_element_located((By.XPATH, x_path))
             )
             submit = driver.find_element(By.XPATH, x_path)
-            time.sleep(random.randint(2, 5))
+            time.sleep(secrets.SystemRandom().randint(2, 5))
             submit.click()
         except Exception as e:
             print(f"Error: {e}")
 
     def end_session(self):
-        time.sleep(random.randint(5, 10))
+        time.sleep(secrets.SystemRandom().randint(5, 10))
         self.driver.quit()
 
     def captcha_checker(self):
